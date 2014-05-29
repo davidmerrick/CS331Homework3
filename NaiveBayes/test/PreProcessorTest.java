@@ -1,5 +1,6 @@
-import naivebayes.*;
+//import naivebayes.*;
 import org.junit.Test;
+import java.util.*;
 import static org.junit.Assert.*;
 
 
@@ -19,10 +20,11 @@ public class PreProcessorTest extends PreProcessor{
 		//loop over all the messages and create their respective feature vectors 
         PreProcessor p = new PreProcessor();
         p.initStopWords("data/stoplist.txt");
-
+        ArrayList<Fortune> trainingData = p.trainData("training_messages","training_classifications");
 
 		//load in the test messages 
 		//convert each of the messages to a feature of "activeWords"
+        ArrayList<Fortune> testData = p.testData("test_fortunes","test_classifications");
 	}
 
 }

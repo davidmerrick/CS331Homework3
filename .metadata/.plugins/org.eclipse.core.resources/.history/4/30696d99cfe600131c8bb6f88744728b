@@ -1,0 +1,10 @@
+import java.util.ArrayList;
+
+
+public class Classifier {
+
+	public Classifier(ArrayList<Fortune> trainData) {
+		// TODO Auto-generated constructor stub
+	}
+
+}
