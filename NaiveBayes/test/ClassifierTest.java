@@ -2,12 +2,11 @@ import static org.junit.Assert.*;
 import java.util.*;
 import org.junit.Test;
 
-
 public class ClassifierTest extends Classifier{
 	
 	@Test
 	public void test() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 	
 	@Test 

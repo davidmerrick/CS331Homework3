@@ -1,22 +1,36 @@
 import java.util.*;
 import java.io.*;
-//import java.io.IOException;
 
 public class PreProcessor {
 
 	Set<String> stopWords,activeWords;
 
-    public PreProcessor()
+    public void PreProcessor()
     {
 
     }
 
     public void initStopWords(String filename){
-        ReadWriteTextFileJDK7 text = new ReadWriteTextFileJDK7();
-        this.stopWords = new HashSet<String>();
-
-        //treat as a small file
-        this.stopWords = text.readSmallTextFile(filename);
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(filename));
+            //Read entire line at a time into a string
+            String line;
+            try {
+                while ((line = br.readLine()) != null) {
+                    this.stopWords.add(line.trim());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
 	public ArrayList<Fortune> trainData(String trainingDataFile, String trainingClassificationFile) throws IOException {
@@ -49,4 +63,7 @@ public class PreProcessor {
 		return null;
 	}
 
+    public void initMessages(String filename){
+
+    }
 }

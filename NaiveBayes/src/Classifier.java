@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 
-
 public class Classifier {
 
 	public Classifier(){
@@ -15,5 +14,4 @@ public class Classifier {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }
