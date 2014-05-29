@@ -6,11 +6,6 @@ import java.util.*;
 //http://stackoverflow.com/questions/2697182/how-to-use-an-array-list
 
 public class PreProcessorTest extends PreProcessor{
-
-	@Test
-	public void test() {
-        //fail("Not yet implemented");
-	}
 	
 	@Test
 	public void testPreProcess(){
@@ -22,7 +17,7 @@ public class PreProcessorTest extends PreProcessor{
         PreProcessor p = new PreProcessor();
         p.initStopWords("NaiveBayes/data/stoplist.txt");
         try {
-            ArrayList<Fortune> trainingData = p.trainData("NaiveBayes/data/traindata.txt","NaiveBayes/data/trainlabels.txt");
+            List<Fortune> trainingData = p.trainData("NaiveBayes/data/traindata.txt","NaiveBayes/data/trainlabels.txt");
         } catch (IOException e) {
             e.printStackTrace();
         }

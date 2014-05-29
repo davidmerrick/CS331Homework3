@@ -1,14 +1,6 @@
-import static org.junit.Assert.*;
-import java.util.*;
-import org.junit.Test;
-
 public class ClassifierTest extends Classifier{
-	
-	@Test
-	public void test() {
-		//fail("Not yet implemented");
-	}
-	
+
+    /*
 	@Test 
 	public void AprioriTest(){
 		
@@ -26,5 +18,6 @@ public class ClassifierTest extends Classifier{
 		Fortune toClassify = new Fortune();
 		Boolean isFortune = classifier.classify(toClassify.feature_vector);
 	}
+	*/
 
 }
