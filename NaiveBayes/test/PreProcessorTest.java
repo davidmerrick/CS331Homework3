@@ -1,6 +1,6 @@
-import static org.junit.Assert.*;
-
+import naivebayes.*;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 
 public class PreProcessorTest extends PreProcessor{
@@ -17,8 +17,10 @@ public class PreProcessorTest extends PreProcessor{
 		//get a set of all words in messages that aren't stop words
 		//count the length and make a vector description 
 		//loop over all the messages and create their respective feature vectors 
-		
-		
+        PreProcessor p = new PreProcessor();
+        p.initStopWords("data/stoplist.txt");
+
+
 		//load in the test messages 
 		//convert each of the messages to a feature of "activeWords"
 	}
