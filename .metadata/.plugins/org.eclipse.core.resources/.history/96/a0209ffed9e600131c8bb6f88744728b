@@ -19,7 +19,7 @@ public class PreProcessor {
         this.stopWords = text.readSmallTextFile(filename);
     }
 
-	public ArrayList<Fortune> trainData(String trainingDataFile, String trainingClassificationFile) throws IOException {
+	public ArrayList<Fortune> trainData(String trainingDataFile, String trainingClassificationFile) throws FileNotFoundException {
 		// TODO Auto-generated method stub
 		
 		//read through the whole file to get the words 

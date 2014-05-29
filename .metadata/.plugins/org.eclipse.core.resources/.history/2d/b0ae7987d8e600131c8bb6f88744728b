@@ -5,6 +5,8 @@ import java.io.*;
 public class PreProcessor {
 
 	Set<String> stopWords,activeWords;
+	
+    private List<String> stopWords;
 
     public PreProcessor()
     {
@@ -13,27 +15,27 @@ public class PreProcessor {
 
     public void initStopWords(String filename){
         ReadWriteTextFileJDK7 text = new ReadWriteTextFileJDK7();
-        this.stopWords = new HashSet<String>();
+        this.stopWords = new ArrayList<String>();
 
         //treat as a small file
         this.stopWords = text.readSmallTextFile(filename);
     }
 
-	public ArrayList<Fortune> trainData(String trainingDataFile, String trainingClassificationFile) throws IOException {
+	public ArrayList<Fortune> trainData(String trainingDataFile, String trainingClassificationFile) throws FileNotFoundException {
 		// TODO Auto-generated method stub
 		
 		//read through the whole file to get the words 
 		BufferedReader br = new BufferedReader(new FileReader(trainingDataFile));
 		String line = br.readLine();
-		this.activeWords = new HashSet<String>();
+		Set<String> allwords = new HashSet<String>();
 		while(line != null){
 			String [] FortuneWords = line.split(" ");//http://docs.oracle.com/javase/7/docs/api/java/util/regex/Pattern.html
 			for (String word : FortuneWords){
-				this.activeWords.add(word);
+				allwords.add(word);
 			}
 		}
 		//AllWords - StopWords = ActiveWords
-		activeWords.removeAll(stopWords);
+		
 		
 		
 		//read through the file for each fortune 

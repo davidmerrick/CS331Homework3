@@ -1,0 +1,40 @@
+import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+
+public class PreProcessor {
+
+    private List<String> stopWords;
+
+    public PreProcessor()
+    {
+
+    }
+
+    public void initStopWords(String filename){
+        ReadWriteTextFileJDK7 text = new ReadWriteTextFileJDK7();
+        this.stopWords = new ArrayList<String>();
+
+        //treat as a small file
+        this.stopWords = text.readSmallTextFile(filename);
+    }
+
+	public ArrayList<Fortune> trainData(String string, String string2) {
+		// TODO Auto-generated method stub
+		//read through the whole file to get the words 
+		//AllWords - StopWords = ActiveWords
+		
+		
+		//read through the file for each message 
+			//split each message up into words
+				//check if each word is in the Active words
+					//set bit active if it's an Active word
+		return null;
+	}
+
+	public ArrayList<Fortune> testData(String string, String string2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}
