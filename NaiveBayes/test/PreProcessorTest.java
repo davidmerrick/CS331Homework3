@@ -20,19 +20,16 @@ public class PreProcessorTest extends PreProcessor{
 		//count the length and make a vector description 
 		//loop over all the messages and create their respective feature vectors
         PreProcessor p = new PreProcessor();
-        p.initStopWords("data/stoplist.txt");
+        p.initStopWords("NaiveBayes/data/stoplist.txt");
         try {
-            ArrayList<Fortune> trainingData = p.trainData("training_messages","training_classifications");
+            ArrayList<Fortune> trainingData = p.trainData("NaiveBayes/data/traindata.txt","NaiveBayes/data/trainlabels.txt");
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        p = new PreProcessor();
-        p.initStopWords("NaiveBayes/data/stoplist.txt");
-
 		//load in the test messages 
 		//convert each of the messages to a feature of "activeWords"
-        ArrayList<Fortune> testData = p.testData("test_fortunes","test_classifications");
+        ArrayList<Fortune> testData = p.testData("NaiveBayes/data/testdata.txt","NaiveBayes/data/testlabels.txt");
 	}
 
 }

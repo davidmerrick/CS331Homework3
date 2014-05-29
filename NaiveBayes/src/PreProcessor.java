@@ -17,7 +17,11 @@ public class PreProcessor {
             String line;
             try {
                 while ((line = br.readLine()) != null) {
-                    this.stopWords.add(line.trim());
+                    try {
+                        this.stopWords.add(line.trim());
+                    } catch(NullPointerException e){
+                        //nah
+                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
