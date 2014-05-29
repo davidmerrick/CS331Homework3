@@ -1,0 +1,7 @@
+import java.util.*;
+
+public class Fortune {
+	public ArrayList<Boolean> feature_vector; //holds the feature vector for this fortune
+	public Boolean isFortune;//holds whether this is a fortune
+
+}
