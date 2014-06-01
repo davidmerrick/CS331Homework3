@@ -3,6 +3,7 @@ import java.util.List;
 public class Classifier {
 
     private List<Fortune> trainData;
+    private Boolean ignoreAbsentWords = true;
 
 	public Classifier(){
 		
@@ -15,8 +16,8 @@ public class Classifier {
 	public Boolean classify(Fortune fortune) {
         List<Boolean> featureVector = fortune.featureVector;
         // 1. Estimate P(Y=v) as fraction of records with Y=v
-        Double overallProbabilityTrue = (Math.log(this.computeProbabilityOfY(true) + Math.E) - 1.0);
-        Double overallProbabilityFalse = (Math.log(this.computeProbabilityOfY(false) + Math.E) - 1.0);
+        Double overallProbabilityTrue = this.probabilityLog(this.computeProbabilityOfY(true));
+        Double overallProbabilityFalse = this.probabilityLog(this.computeProbabilityOfY(false));
 
         // 2. Estimate P(X_i=u | Y=v) as fraction of "Y=v" records that also have X=u
         //Check the probability that the fortune is predictive:
@@ -24,9 +25,10 @@ public class Classifier {
         Double predictiveSum = overallProbabilityTrue;
         Double notPredictiveSum = overallProbabilityFalse;
         for(Boolean feature : featureVector){
-            if(feature) {
-                predictiveSum += (Math.log(this.computeProbabilityOfXGivenY(feature, true, index) + Math.E) - 1.0);
-                notPredictiveSum += (Math.log(this.computeProbabilityOfXGivenY(feature, false, index) + Math.E) - 1.0);
+            //Decide whether to ignore the word if it's absent. Otherwise compute probability based on its absence.
+            if(!(this.ignoreAbsentWords && !feature)) {
+                predictiveSum += this.probabilityLog(this.computeProbabilityOfXGivenY(feature, true, index));
+                notPredictiveSum += this.probabilityLog(this.computeProbabilityOfXGivenY(feature, false, index));
             }
             index++;
         }
@@ -48,6 +50,11 @@ public class Classifier {
 
         double probability = (double) count/(double) trainData.size();
         return probability;
+    }
+
+    //Returns the log of a probability
+    private Double probabilityLog(Double probability){
+        return Math.log(probability + Math.E) - 1.0;
     }
 
     //Estimate P(X_i=u | Y=v) as fraction of "Y=v" records that also have X=u
