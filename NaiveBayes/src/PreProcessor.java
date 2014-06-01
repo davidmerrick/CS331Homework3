@@ -80,21 +80,6 @@ public class PreProcessor {
         Collections.sort(this.vocabulary);
     }
 
-    //Parses a line of words into a Fortune vector
-    private Fortune parseLine(String line){
-        Fortune fortune = new Fortune(this.vocabulary.size());
-
-        List<String> fortuneWords = new ArrayList<String>();
-        String [] lineWords = line.split(" ");
-        //Add the words to the activeWords and fortune words
-
-
-        //Subtract out the stop words
-        fortuneWords.removeAll(this.stopWords);
-
-        return fortune;
-    }
-
 	public List<Fortune> trainData(String trainingDataFile, String trainingLabelsFile) throws IOException {
         this.trainingFortuneArray = new ArrayList<Fortune>();
 
@@ -196,9 +181,11 @@ public class PreProcessor {
     //Takes a line as input and converts to a fortune with a feature vector. Doesn't set the label, though.
     public Fortune fortuneFromString(String line){
         Fortune fortune = new Fortune(this.vocabulary.size());
+        fortune.fortuneString = line;
         String [] lineWords = line.split(" ");
 
         for (String word : lineWords){
+            //Ignore the word if it's not in the vocabulary
             if(this.vocabulary.contains(word)){
                 //Set the feature vector to true at the index of the word
                 fortune.featureVector.set(this.vocabulary.indexOf(word), true);

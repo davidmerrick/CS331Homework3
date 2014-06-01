@@ -8,6 +8,7 @@ import java.util.List;
 public class Fortune {
 
     public List<Boolean> featureVector; //holds the feature vector for this fortune
+    public String fortuneString; //Holds the fortune words for debugging
 
     public Fortune(int vocabSize){
         //Initialize the featureVector to the same size as the vocabulary + 1
@@ -20,4 +21,8 @@ public class Fortune {
         }
     }
 
+    //Returns the end of the featureVector to indicate if fortune is predictive or not
+    public Boolean isPredictive(){
+        return this.featureVector.get(this.featureVector.size()-1);
+    }
 }

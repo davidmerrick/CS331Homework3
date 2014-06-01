@@ -43,7 +43,7 @@ public class PreProcessorTest extends PreProcessor{
             List<Boolean> testLabels = p.testLabels(testLabelFile);
 
             Integer correctCount = 0; //Number of fortunes correctly classified
-            Integer fortuneIndex = 0;
+            int fortuneIndex = 0;
 
             for(Fortune fortune : testFortunes){
                 Boolean classification = c.classify(fortune.featureVector);
@@ -53,6 +53,12 @@ public class PreProcessorTest extends PreProcessor{
                 }
                 fortuneIndex++;
             }
+
+            // 3. Output the accuracy of the naive Bayes classifier by
+            // comparing the predicted class label of each message in the testing data to the actual class label.
+            // The accuracy is the number of correct predictions divided by the total number of predictions.
+
+            Float accuracy = (float) correctCount/(float) testFortunes.size();
 
         } catch (IOException e) {
             e.printStackTrace();
