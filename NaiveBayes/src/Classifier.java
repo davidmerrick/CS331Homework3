@@ -24,8 +24,10 @@ public class Classifier {
         Double predictiveSum = overallProbabilityTrue;
         Double notPredictiveSum = overallProbabilityFalse;
         for(Boolean feature : featureVector){
-            predictiveSum += (Math.log(this.computeProbabilityOfXGivenY(feature, true, index) + Math.E) - 1.0);
-            notPredictiveSum += (Math.log(this.computeProbabilityOfXGivenY(feature, false, index) + Math.E) - 1.0);
+            if(feature) {
+                predictiveSum += (Math.log(this.computeProbabilityOfXGivenY(feature, true, index) + Math.E) - 1.0);
+                notPredictiveSum += (Math.log(this.computeProbabilityOfXGivenY(feature, false, index) + Math.E) - 1.0);
+            }
             index++;
         }
 
@@ -68,4 +70,29 @@ public class Classifier {
         double probability = (double) count/(double) yCount;
         return probability;
     }
+
+    //For debugging
+    //Estimate P(X_i=u | Y=v) as fraction of "Y=v" records that also have X=u
+    public Double computeProbabilityOfWordGivenY(Boolean u, Boolean v, String word, List<String> vocabulary){
+        //Y is overall probability of being predictive
+        //X is the probability in the feature vector
+        //u is value for X, v is value for Y, word determines index in feature vector
+
+        int index = vocabulary.indexOf(word);
+
+        Integer count = 0;
+        Integer yCount = 0; //Total number of Y = v records
+        for(Fortune fortune : trainData){
+            if(fortune.isPredictive() == v){
+                yCount++;
+                if(fortune.featureVector.get(index) == u){
+                    count++;
+                }
+            }
+        }
+
+        double probability = (double) count/(double) yCount;
+        return probability;
+    }
+
 }
