@@ -14,6 +14,9 @@ public class PreProcessorTest extends PreProcessor{
         String stopWordsFile = "NaiveBayes/data/stoplist.txt";
         String trainingDataFile = "NaiveBayes/data/traindata.txt";
         String trainingLabelFile = "NaiveBayes/data/trainlabels.txt";
+        String testDataFile = "NaiveBayes/data/testdata.txt";
+        String testLabelFile = "NaiveBayes/data/testlabels.txt";
+
         PreProcessor p = new PreProcessor();
         p.formVocabulary(trainingDataFile, stopWordsFile);
 

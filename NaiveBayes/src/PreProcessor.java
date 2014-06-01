@@ -3,19 +3,19 @@ import java.io.*;
 
 public class PreProcessor {
 
-    List<String> stopWords,activeWords;
+    List<String> stopWords;
     List<String> vocabulary;
     //Array of fortunes in training data
     List<Fortune> trainingFortuneArray;
 
-    public void PreProcessor()
+    public PreProcessor()
     {
-
+        //Initialize the lists
+        this.vocabulary = new ArrayList<String>();
+        this.stopWords = new ArrayList<String>();
     }
 
     private void initStopWords(String filename){
-        this.stopWords = new ArrayList<String>();
-
         try {
             BufferedReader br = new BufferedReader(new FileReader(filename));
             //Read entire line at a time into a string
@@ -41,6 +41,7 @@ public class PreProcessor {
     //Forms a list of all the words used in the test data
     public void formVocabulary(String trainingDataFile, String stopWordsFile){
         this.initStopWords(stopWordsFile);
+
         try {
             BufferedReader br = new BufferedReader(new FileReader(trainingDataFile));
             //Read entire line at a time into a string
@@ -49,7 +50,7 @@ public class PreProcessor {
                 while ((line = br.readLine()) != null) {
                     String [] lineWords = line.split(" ");
                     //Add the words to the activeWords and fortune words
-                    for (String word : lineWords){
+                    for(String word : lineWords){
                         this.vocabulary.add(word);
                     }
                 }
