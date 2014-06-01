@@ -1,17 +1,19 @@
-import java.util.ArrayList;
+import java.util.List;
 
 public class Classifier {
+
+    private List<Fortune> trainData;
 
 	public Classifier(){
 		
 	}
 	
-	public Classifier(ArrayList<Fortune> trainData) {
-		// TODO Auto-generated constructor stub
+	public Classifier(List<Fortune> trainData) {
+        this.trainData = trainData;
 	}
 
-	public Boolean classify(ArrayList<Boolean> feature_vector) {
-		// TODO Auto-generated method stub
+	public Boolean classify(List<Boolean> featureVector) {
+
 		return null;
 	}
 }

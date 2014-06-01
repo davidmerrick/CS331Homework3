@@ -105,16 +105,7 @@ public class PreProcessor {
             String line, label;
             try {
                 while ((line = brData.readLine()) != null && (label = brLabels.readLine()) != null) {
-                    Fortune fortune = new Fortune(this.vocabulary.size());
-                    String [] lineWords = line.split(" ");
-
-                    //Add the words to a list so it's easily searchable
-                    for (String word : lineWords){
-                        if(this.vocabulary.contains(word)){
-                            //Set the feature vector to true at the index of the word
-                            fortune.featureVector.set(this.vocabulary.indexOf(word), true);
-                        }
-                    }
+                    Fortune fortune = this.fortuneFromString(line);
 
                     //Set the classification index of the feature vector
                     if(label.trim() == "1"){
@@ -140,14 +131,81 @@ public class PreProcessor {
 		return this.trainingFortuneArray;
 	}
 
-	public ArrayList<Fortune> testData(String string, String string2) {
-		return null;
-	}
 
-    public void initMessages(String filename){
+    //Pretty much the same as trainData, but doesn't classify the fortunes. Just returns a list of the test ones
+    public List<Fortune> testData(String testDataFile) throws IOException {
+        List<Fortune> testFortunes = new ArrayList<Fortune>();
 
+        try {
+            BufferedReader brData = new BufferedReader(new FileReader(testDataFile));
+            //Read entire line at a time into a string
+            String line;
+            try {
+                while ((line = brData.readLine()) != null) {
+                    Fortune fortune = this.fortuneFromString(line);
+                    testFortunes.add(fortune);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    brData.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return testFortunes;
     }
 
+    //Returns a list of the labels associated with the test data
+    public List<Boolean> testLabels(String testLabelFile){
+        List<Boolean> testLabels = new ArrayList<Boolean>();
+
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(testLabelFile));
+            //Read entire line at a time into a string
+            String line;
+            try {
+                while ((line = br.readLine()) != null) {
+                    if(line.trim().contains("1")) {
+                        testLabels.add(true);
+                    } else {
+                        testLabels.add(false);
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return testLabels;
+    }
+
+    //Takes a line as input and converts to a fortune with a feature vector. Doesn't set the label, though.
+    public Fortune fortuneFromString(String line){
+        Fortune fortune = new Fortune(this.vocabulary.size());
+        String [] lineWords = line.split(" ");
+
+        for (String word : lineWords){
+            if(this.vocabulary.contains(word)){
+                //Set the feature vector to true at the index of the word
+                fortune.featureVector.set(this.vocabulary.indexOf(word), true);
+            }
+        }
+        return fortune;
+    }
 
     //Outputs the training data to a file
     public void outputTrainingData(String outputFile, List<Fortune> trainFortuneList){
