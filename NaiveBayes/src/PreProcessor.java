@@ -40,6 +40,9 @@ public class PreProcessor {
 
     //Forms a list of all the words used in the test data
     public void formVocabulary(String trainingDataFile, String stopWordsFile){
+        //Create a set. Later, convert this to an array
+        Set<String> vocabSet = new HashSet();
+
         this.initStopWords(stopWordsFile);
 
         try {
@@ -51,7 +54,7 @@ public class PreProcessor {
                     String [] lineWords = line.split(" ");
                     //Add the words to the activeWords and fortune words
                     for(String word : lineWords){
-                        this.vocabulary.add(word);
+                        vocabSet.add(word);
                     }
                 }
             } catch (IOException e) {
@@ -68,7 +71,13 @@ public class PreProcessor {
         }
 
         //Remove all the stop words from the active words
-        this.vocabulary.removeAll(stopWords);
+        vocabSet.removeAll(stopWords);
+
+        //Convert set to array then to list
+        this.vocabulary = new ArrayList(vocabSet);
+
+        //Sort it alphabetically
+        Collections.sort(this.vocabulary);
     }
 
     //Parses a line of words into a Fortune vector
