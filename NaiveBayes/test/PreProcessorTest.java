@@ -9,21 +9,24 @@ public class PreProcessorTest extends PreProcessor{
 	
 	@Test
 	public void testPreProcess(){
-		//load in the stop words
-		//load in the messages 
-		//get a set of all words in messages that aren't stop words
-		//count the length and make a vector description 
-		//loop over all the messages and create their respective feature vectors
+        //1. Form the vocabulary. The vocabulary consists of the set of all the words that are in the training data with stop words removed.
+
+        String stopWordsFile = "NaiveBayes/data/stoplist.txt";
+        String trainingDataFile = "NaiveBayes/data/traindata.txt";
+        String trainingLabelFile = "NaiveBayes/data/trainlabels.txt";
         PreProcessor p = new PreProcessor();
-        p.initStopWords("NaiveBayes/data/stoplist.txt");
+        p.formVocabulary(trainingDataFile, stopWordsFile);
+
+        //2. Convert the training data into a set of features. Vector size is M+1. First M values correspond to the words and the (M+1)th slot corresponds to the class label.
+
         try {
-            List<Fortune> trainingData = p.trainData("NaiveBayes/data/traindata.txt","NaiveBayes/data/trainlabels.txt");
+            List<Fortune> trainingDataList = p.trainData(trainingDataFile, trainingLabelFile);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-		//load in the test messages 
-		//convert each of the messages to a feature of "activeWords"
+        //3. Output the pre-processed training data to a file called preprocessed.txt
+
         ArrayList<Fortune> testData = p.testData("NaiveBayes/data/testdata.txt","NaiveBayes/data/testlabels.txt");
 	}
 

@@ -4,15 +4,16 @@ import java.io.*;
 public class PreProcessor {
 
     List<String> stopWords,activeWords;
-    //Array of fortunes in test data
-    List<Fortune> testFortuneArray;
+    List<String> vocabulary;
+    //Array of fortunes in training data
+    List<Fortune> trainingFortuneArray;
 
     public void PreProcessor()
     {
 
     }
 
-    public void initStopWords(String filename){
+    private void initStopWords(String filename){
         this.stopWords = new ArrayList<String>();
 
         try {
@@ -37,36 +38,20 @@ public class PreProcessor {
         }
     }
 
-    //Parses a line of words into a Fortune vector
-    private Fortune parseLine(String line){
-        Fortune fortune = new Fortune();
-
-        List<String> fortuneWords = new ArrayList<String>();
-        String [] lineWords = line.split(" ");
-        //Add the words to the activeWords and fortune words
-        for (String word : lineWords){
-            fortuneWords.add(word);
-            this.activeWords.add(word);
-        }
-
-        //Subtract out the stop words
-        fortuneWords.removeAll(this.stopWords);
-
-        return fortune;
-    }
-
-	public List<Fortune> trainData(String trainingDataFile, String trainingClassificationFile) throws IOException {
-        this.testFortuneArray = new ArrayList<Fortune>();
-        this.activeWords = new ArrayList<String>();
-
+    //Forms a list of all the words used in the test data
+    public void formVocabulary(String trainingDataFile, String stopWordsFile){
+        this.initStopWords(stopWordsFile);
         try {
             BufferedReader br = new BufferedReader(new FileReader(trainingDataFile));
             //Read entire line at a time into a string
             String line;
             try {
                 while ((line = br.readLine()) != null) {
-                    Fortune lineFortune = this.parseLine(line);
-                    this.testFortuneArray.add(lineFortune);
+                    String [] lineWords = line.split(" ");
+                    //Add the words to the activeWords and fortune words
+                    for (String word : lineWords){
+                        this.vocabulary.add(word);
+                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -82,15 +67,67 @@ public class PreProcessor {
         }
 
         //Remove all the stop words from the active words
-		this.activeWords.removeAll(stopWords);
-		
-		
-		//read through the file for each fortune 
-			//split each message up into words
-				//check if each word is in the Active words
-					//set bit active if it's an Active word
-			//add the fortune's feature vector 
-		return null;
+        this.vocabulary.removeAll(stopWords);
+    }
+
+    //Parses a line of words into a Fortune vector
+    private Fortune parseLine(String line){
+        Fortune fortune = new Fortune(this.vocabulary.size());
+
+        List<String> fortuneWords = new ArrayList<String>();
+        String [] lineWords = line.split(" ");
+        //Add the words to the activeWords and fortune words
+
+
+        //Subtract out the stop words
+        fortuneWords.removeAll(this.stopWords);
+
+        return fortune;
+    }
+
+	public List<Fortune> trainData(String trainingDataFile, String trainingLabelsFile) throws IOException {
+        this.trainingFortuneArray = new ArrayList<Fortune>();
+
+        try {
+            BufferedReader brData = new BufferedReader(new FileReader(trainingDataFile));
+            BufferedReader brLabels = new BufferedReader(new FileReader(trainingLabelsFile));
+            //Read entire line at a time into a string
+            String line, label;
+            try {
+                while ((line = brData.readLine()) != null && (label = brLabels.readLine()) != null) {
+                    Fortune fortune = new Fortune(this.vocabulary.size());
+                    String [] lineWords = line.split(" ");
+
+                    //Add the words to a list so it's easily searchable
+                    for (String word : lineWords){
+                        if(this.vocabulary.contains(word)){
+                            //Set the feature vector to true at the index of the word
+                            fortune.featureVector.set(this.vocabulary.indexOf(word), true);
+                        }
+                    }
+
+                    //Set the classification index of the feature vector
+                    if(label.trim() == "1"){
+                        fortune.featureVector.set(this.vocabulary.size(), true);
+                    }
+
+                    this.trainingFortuneArray.add(fortune);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    brData.close();
+                    brLabels.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+		return this.trainingFortuneArray;
 	}
 
 	public ArrayList<Fortune> testData(String string, String string2) {
