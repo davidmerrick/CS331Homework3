@@ -147,4 +147,37 @@ public class PreProcessor {
     public void initMessages(String filename){
 
     }
+
+
+    //Outputs the training data to a file
+    public void outputTrainingData(String outputFile, List<Fortune> trainFortuneList){
+        Writer writer = null;
+        try {
+            writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile), "utf-8"));
+            for(String word : this.vocabulary) {
+                writer.write(word + ", ");
+            }
+            writer.write('\n');
+            for(Fortune fortune : trainFortuneList){
+                for(Boolean wordVector : fortune.featureVector){
+                    if(wordVector){
+                        writer.write("1");
+                    } else {
+                        writer.write("0");
+                    }
+                    writer.write(", ");
+                }
+                writer.write('\n');
+            }
+        } catch (IOException ex) {
+            // report
+        } finally {
+            try {
+                writer.close();
+            } catch (Exception ex) {
+                //Do something
+            }
+        }
+
+    }
 }

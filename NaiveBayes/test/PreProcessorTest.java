@@ -11,11 +11,15 @@ public class PreProcessorTest extends PreProcessor{
 	public void testPreProcess(){
         // 1. Form the vocabulary. The vocabulary consists of the set of all the words that are in the training data with stop words removed.
 
+        //Files that were given
         String stopWordsFile = "NaiveBayes/data/stoplist.txt";
         String trainingDataFile = "NaiveBayes/data/traindata.txt";
         String trainingLabelFile = "NaiveBayes/data/trainlabels.txt";
         String testDataFile = "NaiveBayes/data/testdata.txt";
         String testLabelFile = "NaiveBayes/data/testlabels.txt";
+
+        //Files for output
+        String preprocessedFile = "NaiveBayes/data/preprocessed.txt";
 
         PreProcessor p = new PreProcessor();
         p.formVocabulary(trainingDataFile, stopWordsFile);
@@ -24,6 +28,7 @@ public class PreProcessorTest extends PreProcessor{
 
         try {
             List<Fortune> trainingDataList = p.trainData(trainingDataFile, trainingLabelFile);
+            p.outputTrainingData(preprocessedFile, trainingDataList);
         } catch (IOException e) {
             e.printStackTrace();
         }
