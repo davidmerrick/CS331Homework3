@@ -93,7 +93,7 @@ public class PreProcessor {
                     Fortune fortune = this.fortuneFromString(line);
 
                     //Set the classification index of the feature vector
-                    if(label.trim() == "1"){
+                    if(label.trim().contains("1")){
                         fortune.featureVector.set(this.vocabulary.size(), true);
                     }
 

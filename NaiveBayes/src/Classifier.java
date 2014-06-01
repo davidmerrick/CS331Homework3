@@ -12,10 +12,11 @@ public class Classifier {
         this.trainData = trainData;
 	}
 
-	public Boolean classify(List<Boolean> featureVector) {
+	public Boolean classify(Fortune fortune) {
+        List<Boolean> featureVector = fortune.featureVector;
         // 1. Estimate P(Y=v) as fraction of records with Y=v
-        Double overallProbabilityTrue = Math.log(this.computeProbabilityOfY(true));
-        Double overallProbabilityFalse = Math.log(this.computeProbabilityOfY(false));
+        Double overallProbabilityTrue = (Math.log(this.computeProbabilityOfY(true) + Math.E) - 1.0);
+        Double overallProbabilityFalse = (Math.log(this.computeProbabilityOfY(false) + Math.E) - 1.0);
 
         // 2. Estimate P(X_i=u | Y=v) as fraction of "Y=v" records that also have X=u
         //Check the probability that the fortune is predictive:
@@ -23,8 +24,8 @@ public class Classifier {
         Double predictiveSum = overallProbabilityTrue;
         Double notPredictiveSum = overallProbabilityFalse;
         for(Boolean feature : featureVector){
-            predictiveSum += Math.log(this.computeProbabilityOfXGivenY(feature, true, index));
-            notPredictiveSum += Math.log(this.computeProbabilityOfXGivenY(feature, false, index));
+            predictiveSum += (Math.log(this.computeProbabilityOfXGivenY(feature, true, index) + Math.E) - 1.0);
+            notPredictiveSum += (Math.log(this.computeProbabilityOfXGivenY(feature, false, index) + Math.E) - 1.0);
             index++;
         }
 
@@ -43,7 +44,8 @@ public class Classifier {
             }
         }
 
-        return (double) count/(double) trainData.size();
+        double probability = (double) count/(double) trainData.size();
+        return probability;
     }
 
     //Estimate P(X_i=u | Y=v) as fraction of "Y=v" records that also have X=u
@@ -63,6 +65,7 @@ public class Classifier {
             }
         }
 
-        return (double) count/(double) yCount;
+        double probability = (double) count/(double) yCount;
+        return probability;
     }
 }

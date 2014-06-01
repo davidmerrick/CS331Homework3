@@ -46,7 +46,7 @@ public class PreProcessorTest extends PreProcessor{
             int fortuneIndex = 0;
 
             for(Fortune fortune : testFortunes){
-                Boolean classification = c.classify(fortune.featureVector);
+                Boolean classification = c.classify(fortune);
                 //If it got it right, increment the correctCount
                 if(classification == testLabels.get(fortuneIndex)){
                     correctCount++;
