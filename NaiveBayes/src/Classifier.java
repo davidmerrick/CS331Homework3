@@ -3,7 +3,7 @@ import java.util.List;
 public class Classifier {
 
     private List<Fortune> trainData;
-    private Boolean ignoreAbsentWords = true;
+    private Boolean ignoreAbsentWords = false;
 
 	public Classifier(){
 		
@@ -74,7 +74,14 @@ public class Classifier {
             }
         }
 
-        double probability = (double) count/(double) yCount;
+        double probability;
+        // Dirichlet Prior: if no records found, probability is 1/n
+        // (where n is the number of possible values, which, in this case is True and False so 2) or 50%
+        if(count == 0){
+            probability = 0.5;
+        } else {
+            probability = (double) count/(double) yCount;
+        }
         return probability;
     }
 
