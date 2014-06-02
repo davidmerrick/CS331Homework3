@@ -202,6 +202,7 @@ public class PreProcessor {
             for(String word : this.vocabulary) {
                 writer.write(word + ", ");
             }
+            writer.write("Class Label");
             writer.write('\n');
             for(Fortune fortune : trainFortuneList){
                 for(Boolean wordVector : fortune.featureVector){
@@ -211,6 +212,11 @@ public class PreProcessor {
                         writer.write("0");
                     }
                     writer.write(", ");
+                }
+                if(fortune.isPredictive()){
+                    writer.write("1");
+                } else {
+                    writer.write("0");
                 }
                 writer.write('\n');
             }

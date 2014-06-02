@@ -64,7 +64,7 @@ public class PreProcessorTest extends PreProcessor{
             // The accuracy is the number of correct predictions divided by the total number of predictions.
 
             Float accuracy = (float) correctCount/(float) testFortunes.size();
-
+            System.out.print(accuracy);
         } catch (IOException e) {
             e.printStackTrace();
         }

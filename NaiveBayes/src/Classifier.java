@@ -6,7 +6,8 @@ public class Classifier {
 
     //Configuration options
     private Boolean ignoreAbsentWords = true;
-    private Boolean dirichletPriors = false;
+    private Boolean dirichletPriors = true;
+    private Boolean addE = false;
 
 	public Classifier(){
 		
@@ -57,7 +58,11 @@ public class Classifier {
 
     //Returns the log of a probability
     private Double probabilityLog(Double probability){
-        return Math.log(probability + Math.E) - 1.0;
+        if(this.addE) {
+            return Math.log(probability + Math.E) - 1.0;
+        } else {
+            return Math.log(probability);
+        }
     }
 
     //Estimate P(X_i=u | Y=v) as fraction of "Y=v" records that also have X=u
@@ -80,8 +85,8 @@ public class Classifier {
         double probability;
         // Dirichlet Prior: if no records found, probability is 1/n
         // (where n is the number of possible values, which, in this case is True and False so 2) or 50%
-        if (count == 0 && this.dirichletPriors) {
-            probability = 0.5;
+        if (this.dirichletPriors) {
+            probability = ((double) count + 1.0) / ((double) yCount + 2.0);
         } else {
             probability = (double) count / (double) yCount;
         }
