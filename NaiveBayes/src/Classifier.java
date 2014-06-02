@@ -7,7 +7,7 @@ public class Classifier {
     //Configuration options
     private Boolean ignoreAbsentWords = true;
     private Boolean dirichletPriors = true;
-    private Boolean addE = false;
+    private Boolean addE = false; //Add E within the log
 
 	public Classifier(){
 		
@@ -92,36 +92,6 @@ public class Classifier {
         }
         return probability;
     }
-
-    //Trying this just for kicks
-    //Estimate P(X_i=u | Y=v) as fraction of "Y=v" records that also have X=u
-    private Double computeProbabilityOfYGivenX(Boolean u, Boolean v, int index){
-        //Y is overall probability of being predictive
-        //X is the probability in the feature vector
-        //u is value for X, v is value for Y, index is index in feature vector
-
-        Integer count = 0;
-        Integer yCount = 0; //Total number of Y = v records
-        for(Fortune fortune : trainData){
-            if(fortune.featureVector.get(index) == u){
-                count++;
-                if(fortune.isPredictive() == v){
-                    yCount++;
-                }
-            }
-        }
-
-        double probability;
-        // Dirichlet Prior: if no records found, probability is 1/n
-        // (where n is the number of possible values, which, in this case is True and False so 2) or 50%
-        if(count == 0){
-            probability = 0.5;
-        } else {
-            probability = (double) yCount/(double) count;
-        }
-        return probability;
-    }
-
 
     //For debugging
     //Estimate P(X_i=u | Y=v) as fraction of "Y=v" records that also have X=u
