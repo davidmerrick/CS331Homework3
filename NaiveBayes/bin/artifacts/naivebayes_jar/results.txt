@@ -1,0 +1,7 @@
+Results:
+Training data file: NaiveBayes/data/traindata.txt
+Training labels file: NaiveBayes/data/trainlabels.txt
+Accuracy of running classifier on training data file: 0.95341617
+Test data file: NaiveBayes/data/testdata.txt
+Test labels file: NaiveBayes/data/testlabels.txt
+Accuracy of running classifier on test data file: 0.8217822

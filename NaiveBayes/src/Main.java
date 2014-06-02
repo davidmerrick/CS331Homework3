@@ -14,11 +14,11 @@ public class Main {
         String trainingLabelFile;
         String testDataFile;
         String testLabelFile;
-        String resultsFile = "NaiveBayes/data/results.txt";
+        String resultsFile = "results.txt";
 
 
         //Parse the command line arguments
-        if(args.length < 6){
+        if(args.length < 5){
             System.out.println("No command line arguments specified or they weren't in this order: ");
             System.out.println("<stoplist file> <training data file> <training label file> <testing data file> <testing label file>");
             System.out.println("Setting these to defaults and proceeding.");
@@ -31,11 +31,11 @@ public class Main {
             testLabelFile = "NaiveBayes/data/testlabels.txt";
         } else {
             //Set the defaults
-            stopWordsFile = args[1];
-            trainingDataFile = args[2];
-            trainingLabelFile = args[3];
-            testDataFile = args[4];
-            testLabelFile = args[5];
+            stopWordsFile = args[0];
+            trainingDataFile = args[1];
+            trainingLabelFile = args[2];
+            testDataFile = args[3];
+            testLabelFile = args[4];
         }
 
         // 1. Form the vocabulary. The vocabulary consists of the set of all the words that are in the training data with stop words removed.
@@ -113,6 +113,7 @@ public class Main {
             // comparing the predicted class label of each message in the testing data to the actual class label.
             // The accuracy is the number of correct predictions divided by the total number of predictions.
 
+            System.out.println("Printing results to results.txt in current directory.");
             Writer writer = null;
             try {
                 writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(resultsFile), "utf-8"));
