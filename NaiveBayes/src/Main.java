@@ -4,16 +4,41 @@ import java.util.List;
 
 public class Main {
 
-	public static void main(String[] args) {
-        // 1. Form the vocabulary. The vocabulary consists of the set of all the words that are in the training data with stop words removed.
 
-        //Files that were given
-        String stopWordsFile = "NaiveBayes/data/stoplist.txt";
-        String trainingDataFile = "NaiveBayes/data/traindata.txt";
-        String trainingLabelFile = "NaiveBayes/data/trainlabels.txt";
-        String testDataFile = "NaiveBayes/data/testdata.txt";
-        String testLabelFile = "NaiveBayes/data/testlabels.txt";
+    //Your code will be required to take the following command line arguments (in order):
+    //<stoplist file> <training data file> <training label file> <testing data file> <testing label file>
+
+	public static void main(String[] args) {
+        String stopWordsFile;
+        String trainingDataFile;
+        String trainingLabelFile;
+        String testDataFile;
+        String testLabelFile;
         String resultsFile = "NaiveBayes/data/results.txt";
+
+
+        //Parse the command line arguments
+        if(args.length < 6){
+            System.out.println("No command line arguments specified or they weren't in this order: ");
+            System.out.println("<stoplist file> <training data file> <training label file> <testing data file> <testing label file>");
+            System.out.println("Setting these to defaults and proceeding.");
+
+            //Set the defaults
+            stopWordsFile = "NaiveBayes/data/stoplist.txt";
+            trainingDataFile = "NaiveBayes/data/traindata.txt";
+            trainingLabelFile = "NaiveBayes/data/trainlabels.txt";
+            testDataFile = "NaiveBayes/data/testdata.txt";
+            testLabelFile = "NaiveBayes/data/testlabels.txt";
+        } else {
+            //Set the defaults
+            stopWordsFile = args[1];
+            trainingDataFile = args[2];
+            trainingLabelFile = args[3];
+            testDataFile = args[4];
+            testLabelFile = args[5];
+        }
+
+        // 1. Form the vocabulary. The vocabulary consists of the set of all the words that are in the training data with stop words removed.
 
         PreProcessor p = new PreProcessor();
         p.formVocabulary(trainingDataFile, stopWordsFile);
