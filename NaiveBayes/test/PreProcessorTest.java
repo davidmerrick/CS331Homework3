@@ -45,11 +45,16 @@ public class PreProcessorTest extends PreProcessor{
             Integer correctCount = 0; //Number of fortunes correctly classified
             int fortuneIndex = 0;
 
+            //For debugging: fortunes it got wrong
+            List<Fortune> wrongFortunes = new ArrayList<Fortune>();
+
             for(Fortune fortune : testFortunes){
                 Boolean classification = c.classify(fortune);
                 //If it got it right, increment the correctCount
                 if(classification == testLabels.get(fortuneIndex)){
                     correctCount++;
+                } else {
+                    wrongFortunes.add(fortune);
                 }
                 fortuneIndex++;
             }
