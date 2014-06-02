@@ -230,23 +230,4 @@ public class PreProcessor {
             }
         }
     }
-
-    //Outputs the accuracy to a file
-    public void outputAccuracy(Double accuracy, String outputFile){
-        Writer writer = null;
-        try {
-            writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile), "utf-8"));
-
-            writer.write("Class Label");
-            writer.write('\n');
-        } catch (IOException ex) {
-            // report
-        } finally {
-            try {
-                writer.close();
-            } catch (Exception ex) {
-                //Do something
-            }
-        }
-    }
 }
